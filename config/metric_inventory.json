@@ -1,0 +1,139 @@
+{
+  "schema_version": "behavioral-metric-inventory-1.0",
+  "parser_id": "behavioral-trajectory-parser",
+  "codebook_version": "behavioral-trajectory-codebook",
+  "extractor": "parser.compute_rollout_metrics",
+  "metrics": [
+    {
+      "id": "operational_action_count",
+      "type": "integer",
+      "description": "Attempted nonterminal tool-call events."
+    },
+    {
+      "id": "semantic_denominator",
+      "type": "integer",
+      "description": "Executed events with a supported semantic primary operation."
+    },
+    {
+      "id": "exploration_share",
+      "type": "number_or_null",
+      "description": "Primary explore, search, or read events divided by the semantic denominator."
+    },
+    {
+      "id": "read_share",
+      "type": "number_or_null",
+      "description": "Primary read events divided by the semantic denominator."
+    },
+    {
+      "id": "search_share",
+      "type": "number_or_null",
+      "description": "Primary search events divided by the semantic denominator."
+    },
+    {
+      "id": "file_mutation_share",
+      "type": "number_or_null",
+      "description": "Syntactically inferred primary mutation events divided by the semantic denominator."
+    },
+    {
+      "id": "build_package_share",
+      "type": "number_or_null",
+      "description": "Primary package-or-build events divided by the semantic denominator."
+    },
+    {
+      "id": "other_operation_share",
+      "type": "number_or_null",
+      "description": "Primary OTHER_OPERATION events divided by the semantic denominator."
+    },
+    {
+      "id": "non_test_repository_write_without_observed_failure_count",
+      "type": "integer",
+      "description": "Executed mutation calls with a resolved non-test destination and no observed failure."
+    },
+    {
+      "id": "non_test_repository_write_without_observed_failure_share",
+      "type": "number_or_null",
+      "description": "Counted non-test writes divided by the semantic denominator."
+    },
+    {
+      "id": "non_test_repository_write_with_explicit_success_count",
+      "type": "integer",
+      "description": "Counted writes supported by an explicit zero exit status."
+    },
+    {
+      "id": "non_test_repository_write_with_no_observed_failure_only_count",
+      "type": "integer",
+      "description": "Counted writes supported only by absence of an observed failure."
+    },
+    {
+      "id": "formal_test_call_count",
+      "type": "integer",
+      "description": "Executed tool calls containing at least one formal-test operation."
+    },
+    {
+      "id": "formal_test_invocation_count",
+      "type": "integer",
+      "description": "Contained formal-test operations in executed test calls."
+    },
+    {
+      "id": "formal_test_call_share",
+      "type": "number_or_null",
+      "description": "Formal-test calls divided by the semantic denominator."
+    },
+    {
+      "id": "formal_test_invocations_per_semantic_action",
+      "type": "number_or_null",
+      "description": "Formal-test invocations divided by the semantic denominator."
+    },
+    {
+      "id": "repeated_unsuccessful_command_count",
+      "type": "integer",
+      "description": "Strict consecutive unsuccessful repetitions of the same command signature."
+    },
+    {
+      "id": "recurring_unsuccessful_command_count_by_signature",
+      "type": "integer",
+      "description": "Signature-specific unsuccessful repetitions, allowing intervening signatures."
+    },
+    {
+      "id": "unproductive_tail_length",
+      "type": "integer",
+      "description": "Attempted actions after the last counted write or passing formal test."
+    },
+    {
+      "id": "action_entropy",
+      "type": "number_or_null",
+      "description": "Unnormalized Shannon entropy of semantic primary operations."
+    },
+    {
+      "id": "action_entropy_normalized",
+      "type": "number_or_null",
+      "description": "Action entropy divided by the log of the observed category count when defined."
+    },
+    {
+      "id": "action_switch_count",
+      "type": "integer",
+      "description": "Changes between adjacent semantic primary operations."
+    },
+    {
+      "id": "action_switch_rate",
+      "type": "number_or_null",
+      "description": "Action switches divided by semantic transitions."
+    },
+    {
+      "id": "post_edit_diff_inspection",
+      "type": "boolean",
+      "description": "Whether workspace-diff inspection follows the final counted non-test write."
+    },
+    {
+      "id": "unverified_termination",
+      "type": "enum",
+      "values": ["no_write", "verified", "unverified"],
+      "description": "Verification status after the final counted non-test write."
+    },
+    {
+      "id": "unverified_termination_after_non_test_repository_write",
+      "type": "boolean",
+      "description": "Compatibility indicator that is true only for categorical unverified termination."
+    }
+  ]
+}

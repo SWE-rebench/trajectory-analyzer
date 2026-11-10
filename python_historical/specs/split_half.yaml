@@ -1,0 +1,85 @@
+schema_version: split-half-null-control-spec-v1.1
+status: corrected_and_frozen_before_final_execution
+supersedes: split-half-null-control-spec-v1
+population: evaluated_final_v2
+purpose: test_the_outcome_matched_workflow_pipeline_under_a_within_stack_null
+source_design:
+  real_pair_set: complete_close_1pp_pairs_under_parser_v2_2_1
+  real_pair_count: 60
+  pseudo_pair_unit: one_real_pair_arm_task_panel
+  pseudo_pairs_per_split_seed: 120
+  note: repeated_exact_stacks_remain_separate_when_their_frozen_50_task_panels_differ
+  common_tasks_per_pseudo_pair: 50
+  frozen_rollouts_per_task_stack_cell: 5
+split_design:
+  primary_random_splits:
+    split_seeds: 100
+    per_task_stack_cell: independently_permute_five_frozen_rollout_ids
+    repeated_cell_rule: reuse_one_assignment_for_the_same_exact_stack_x_task_cell_across_all_pair_panels_within_a_seed
+    pseudo_arm_a: first_two
+    pseudo_arm_b: next_two
+    excluded_rollout: fifth
+  excluded_rollout_sensitivity:
+    canonical_rollout_slot_source: order_in_frozen_balanced_pair_task_registry_json
+    excluded_slots: [0, 1, 2, 3, 4]
+    random_partition_seeds_per_excluded_slot: 20
+    total_sensitivity_split_runs: 100
+    per_task_stack_cell: force_the_declared_slot_out_then_randomly_partition_the_remaining_four_2_vs_2
+  split_seed_key: split-half-null-control-v1
+anchors:
+  - operational_action_count
+  - exploration_share
+  - source_write_count
+  - formal_test_count
+  - repeated_unsuccessful_command_count
+  - unproductive_tail_length
+primary_anchor_subset:
+  - operational_action_count
+  - exploration_share
+  - formal_test_count
+cell_estimator:
+  pseudo_arm_size: 2
+  minimum_defined_rollouts_per_pseudo_arm: 2
+  rationale: preserve_no_undefined_coercion_and_require_both_selected_rollouts_to_be_defined
+  task_stack_value: mean_over_defined_selected_rollouts
+  censored_but_defined_values_retained: true
+  undefined_values_not_coerced_to_zero: true
+pair_anchor_estimator:
+  signed_direction: pseudo_arm_b_minus_pseudo_arm_a
+  pair_value: equal_mean_over_paired_defined_task_differences
+  minimum_paired_defined_tasks: 40
+uncertainty:
+  nominal:
+    method: paired_task_cluster_bootstrap
+    draws: 10000
+    interval: percentile_95
+    quantile_method: linear
+    separation_rule: interval_excludes_zero
+    seed_key: split-half-null-control-bootstrap-v1_x_design_x_split_seed_x_pseudo_pair_x_metric
+  multiplicity:
+    method: paired_task_sign_flip_max_abs_studentized_statistic
+    family: six_anchors_within_each_pseudo_pair
+    draws: 10000
+    finite_sample_plus_one: true
+    threshold: 0.05
+    seed_key: split-half-null-control-maxT-v1_x_design_x_split_seed_x_pseudo_pair
+reporting:
+  primary_denominator: pseudo_pair_split_replicates_with_all_six_anchors_supported
+  summaries:
+    - fractions_with_at_least_1_2_3_nominal_separations
+    - fractions_with_at_least_1_2_3_maxT_separations
+    - per_primary_anchor_nominal_and_maxT_false_separation_rates
+    - false_separation_count_distribution_0_to_6
+    - comparison_with_the_60_real_complete_close1_pairs
+    - forced_excluded_rollout_slot_sensitivity
+  dependence_warning: pseudo_pairs_and_split_seeds_reuse_stacks_tasks_and_rollouts_so_counts_are_descriptive_not_iid
+claim_boundary:
+  allowed: assess_whether_the_frozen_pipeline_usually_avoids_within_stack_false_separation
+  prohibited:
+    - human_ground_truth
+    - independent_pseudo_pair_claim
+    - proof_of_global_familywise_control_across_pairs_or_seeds
+    - article_edit
+raw_trajectory_access: false
+outcome_reselection: false
+article_edit: false

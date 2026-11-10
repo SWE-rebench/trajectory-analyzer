@@ -1,0 +1,87 @@
+schema_version: pair-level-outcome-proximity-spec-v1
+status: frozen_before_outcome_access
+population: evaluated_final_v2
+balanced_registry_freeze_id: balanced_outcome_matched_registry_v1_1635x50x5x2
+purpose: >-
+  Identify exact-stack pairs with closely matched observed resolved rates over
+  the frozen 50-task, 5-trajectory-per-task-per-arm balanced panel, while
+  separating descriptive proximity from formal equivalence.
+analysis_unit: balanced_exact_stack_pair
+per_pair_support:
+  tasks: 50
+  trajectories_per_task_per_arm: 5
+  rollout_views_per_arm: 250
+  rollout_views_total: 500
+estimator:
+  task_stack_solve_rate: mean_binary_resolve_over_5_frozen_trajectories
+  arm_solve_rate: equal_mean_over_50_task_stack_rates
+  paired_delta: stack_b_minus_stack_a_equal_mean_over_50_task_differences
+  orientation: stack_b_minus_stack_a
+uncertainty:
+  method: paired_task_cluster_bootstrap
+  draws: 10000
+  seed: outcome-matched-pair-solve-bootstrap-v1
+  resampling_unit: task_within_pair
+  paired_delta_interval: percentile_95
+  arm_intervals: simultaneous_same_bootstrap_draws_percentile_95
+  equivalence_interval: percentile_90
+primary_descriptive_close_rule:
+  id: close_2pp_nondetection
+  absolute_paired_point_delta_max: 0.02
+  paired_95_interval_must_include_zero: true
+  marginal_arm_95_intervals_must_overlap: false
+  manuscript_label: closely_matched_observed_solve_rates
+  prohibited_label: equal_or_equivalent_solve_rates
+stronger_descriptive_subset:
+  id: close_1pp_nondetection
+  absolute_paired_point_delta_max: 0.01
+  paired_95_interval_must_include_zero: true
+formal_equivalence_rule:
+  id: equivalent_within_2pp
+  equivalence_margin: 0.02
+  method: two_one_sided_tests_interpreted_via_90_percent_paired_interval
+  pass_condition: paired_90_interval_entirely_inside_minus_0_02_plus_0_02
+  role: strict_secondary_subset
+formal_equivalence_sensitivity:
+  id: equivalent_within_1pp
+  equivalence_margin: 0.01
+  pass_condition: paired_90_interval_entirely_inside_minus_0_01_plus_0_01
+marginal_interval_overlap_diagnostics:
+  compute: true
+  primary_selection_role: none
+  fields:
+    - arm_95_intervals_overlap
+    - overlap_length
+    - overlap_fraction_of_narrower_interval
+  interpretation: >-
+    Marginal confidence-interval overlap is descriptive only. It is not a test
+    of equality, nondifference, or equivalence and does not replace the paired
+    delta interval.
+required_outputs_after_authorized_execution:
+  - pair_level_solve_proximity_v1.csv
+  - pair_level_solve_proximity_summary_v1.json
+  - close_2pp_pair_registry_v1.csv
+  - close_1pp_pair_registry_v1.csv
+  - equivalent_2pp_pair_registry_v1.csv
+  - equivalent_1pp_pair_registry_v1.csv
+required_reporting:
+  - all_1635_pairs_retained_in_complete_output
+  - close_and_equivalent_pair_counts
+  - unique_stacks_models_companies_tasks
+  - solve_level_distribution
+  - cross_company_and_within_company_counts
+  - explicit_and_default_or_unreported_effort_counts
+  - high_degree_stack_diagnostics
+interpretation_boundaries:
+  same_observed_point_rate_is_latent_capability_equivalence: false
+  close_2pp_is_formal_equivalence: false
+  overlapping_marginal_intervals_imply_equality: false
+  outcome_proximity_implies_behavioral_similarity: not_assumed_to_be_tested_later
+  pure_model_effect: false
+stage_boundary:
+  outcome_values_accessed: false
+  outcome_proximity_computed: false
+  behavior_values_accessed: false
+  behavioral_divergence_rule_frozen: false
+  weighting_and_dependence_rule_frozen: false
+  execution_authorized: false

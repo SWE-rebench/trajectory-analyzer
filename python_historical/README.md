@@ -1,0 +1,10 @@
+# Historical Python analyses: source only
+
+This directory preserves the principal research implementations behind the full-corpus matched-pair, split-half and repository-holdout analyses. They are provided for inspecting the algorithms, not as a self-contained pipeline: their frozen registries, locks, prior intermediate files, full trajectory corpus, and original research workspace are not released here. They must not be run against the 110-task panel and presented as reproduction of the original results.
+
+- `selection/metadata_feasibility.py`, `balanced_registry.py`, `outcome_proximity.py`: metadata feasibility, selection of 50 common tasks and five runs per arm, and paired outcome proximity. Close-1 also requires the paired 95% outcome interval to include zero.
+- `close_null/close_pairs.py`, `split_half_null.py`: frozen-parser recomputation of the six workflow metrics and the original split-half control.
+- `fingerprint/repository_holdout.py`: task-adjusted, repository-disjoint eight-feature cosine retrieval, bootstrap, and permutation analysis. The original workspace path was replaced by `BEHAVIORAL_RESEARCH_WORKSPACE`; the rest of the historical file retains its frozen-input assumptions.
+- `specs/`: unchanged frozen methodological specifications, without trajectory data. The earlier selection and analysis specifications precede the parser-regeneration specification, which updates the metric definitions for the later recalculation.
+
+These files have simple names, but retain historical versioned input and output identifiers inside the code. The frozen locks may reference original script paths and hashes: the scripts expect the original workspace directory structure and hash-locked internal inputs, so simply setting an input directory is not sufficient. `requirements.txt` records the dependencies used by the original split-half null run (Python 3.11+); those pins alone do not restore missing inputs or establish full-workflow reproducibility. Exact reproduction also requires the original parser, not merely a parser with a similar name. The `python_pipeline.py` program is a separate implementation for the 110-task dataset panel.

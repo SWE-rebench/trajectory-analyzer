@@ -1,0 +1,35 @@
+{
+  "dataset": "nebius/SWE-rebench-leaderboard-trajectories",
+  "config": "python_spring2026",
+  "revision": "81499b38bdafab37130f43d03b5cfcd7697db50b",
+  "expected_panel": {
+    "tasks": 110,
+    "trajectories": 18468,
+    "configurations": 36
+  },
+  "generation_effort": [
+    {"label": "Opus 4.6 / SWE", "agent_config_id": "swelike-py/claude-opus-4-6-tools-2026"},
+    {"label": "Opus 4.7 / SWE", "agent_config_id": "swelike-py/claude-opus-4-7-tools-2026"},
+    {"label": "Opus 4.8 / SWE", "agent_config_id": "swelike-py/claude-opus-4-8-tools-2026"},
+    {"label": "Opus 5 / SWE", "agent_config_id": "swelike-py/claude-opus-5-high-tools-2026"},
+    {"label": "GPT-5.4 / SWE", "agent_config_id": "swelike-py/gpt-54-2026-03-05-medium-tools-2026"},
+    {"label": "GPT-5.5 medium / SWE", "agent_config_id": "swelike-py/gpt-55-2026-04-23-medium-tools-2026"},
+    {"label": "GPT-5.5 xhigh / SWE", "agent_config_id": "swelike-py/gpt-55-2026-04-23-xhigh-tools-2026"},
+    {"label": "GPT-5.6 Sol / SWE", "agent_config_id": "swelike-py/gpt-56-sol-medium-tools-2026"},
+    {"label": "Opus 4.8 low / Claude Code", "agent_config_id": "claude-code-cli/claude-opus-4-8/effort-low"},
+    {"label": "Opus 4.8 medium / Claude Code", "agent_config_id": "claude-code-cli/claude-opus-4-8/effort-medium"},
+    {"label": "Opus 4.8 high / Claude Code", "agent_config_id": "claude-code-cli/claude-opus-4-8/effort-high"},
+    {"label": "Opus 4.8 xhigh / Claude Code", "agent_config_id": "claude-code-cli/claude-opus-4-8/effort-xhigh"}
+  ],
+  "scaffolds": [
+    {"label": "Opus 4.7 / SWE", "agent_config_id": "swelike-py/claude-opus-4-7-tools-2026"},
+    {"label": "Opus 4.7 / Claude Code", "agent_config_id": "claude-code-cli/claude-opus-4-7"},
+    {"label": "GPT-5.5 / SWE", "agent_config_id": "swelike-py/gpt-55-2026-04-23-medium-tools-2026"},
+    {"label": "GPT-5.5 / Codex", "agent_config_id": "codex-cli/gpt-5.5"}
+  ],
+  "generation_effort_metrics": [
+    "operational_action_count", "read_share", "edit_share", "diff_inspection_share",
+    "sed_print_share", "python_edit_share", "quiet_pytest_share"
+  ],
+  "scaffold_metrics": ["native_edit_share", "redirect_edit_share", "python_edit_share", "native_read_share"]
+}

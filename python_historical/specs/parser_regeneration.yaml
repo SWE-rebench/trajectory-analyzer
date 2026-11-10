@@ -1,0 +1,61 @@
+schema_version: parser-v4-regeneration-spec-v1
+status: frozen_before_full_trajectory_access
+parser:
+  id: behavioral-parser-4.0.0+git.4ec73bdbd306
+  codebook: behavioral-parser-codebook-4.0.0+git.4ec73bdbd306
+  tag: behavioral-parser-v4.0.0
+  production_public_byte_identity_required: true
+scope:
+  - canonical_primary_multilingual_external_registries
+  - frozen_hybrid_500_rescoring_without_label_changes
+  - fixed_close_pair_and_split_half_null_recalculation
+  - fixed_repository_and_multilingual_fingerprint_recalculation
+  - required_parser_coverage_and_metric_definition_sensitivities
+  - tables_1_11_sources_and_replacement_inventory
+population_policy:
+  primary_rollouts: 134329
+  primary_events: 5423780
+  multilingual_rollouts: 8880
+  multilingual_events: 598148
+  external_rollouts: 3080
+  external_events: 111173
+  frozen_tasks_stacks_rollouts_pairs_splits_estimands_seeds: true
+  reselection_forbidden: true
+metric_policy:
+  article_formal_test_unit: formal_test_invocation_count
+  formal_test_sensitivity: formal_test_call_count
+  article_repeat_unit: repeated_unsuccessful_command_count
+  repeat_sensitivity: recurring_unsuccessful_command_count_by_signature
+  primary_write: non_test_repository_write_without_observed_failure_count
+  write_sensitivity: non_test_repository_write_with_explicit_success_count
+  termination: categorical_unverified_termination_with_boolean_compatibility
+  exploration_and_formal_test_metrics_nonexclusive: true
+required_sensitivities:
+  - formal_test_invocations_vs_calls
+  - strict_consecutive_vs_signature_recurrence
+  - broad_vs_explicit_only_write_evidence
+  - no_compound_events
+  - coverage_by_stack_language_panel_and_parser_format
+  - unresolved_conflict_unknown_other_and_rejected_rates
+validation:
+  same_frozen_consensus_labels: true
+  new_annotation_selection: false
+  model_consensus_is_surrogate_not_human_ground_truth: true
+fingerprints:
+  fixed_repository_assignment_classifier_features_scaling_and_seeds: true
+  fixed_multilingual_partitions_classifier_features_scaling_and_seeds: true
+  interpretation: observable_exact_stack_retrieval_not_capability_quality_or_personality
+close_null:
+  fixed_pairs_tasks_outcomes_and_seeds: true
+  maxT_role: post_hoc_six_anchor_within_pair_sensitivity
+outputs:
+  raw_commands_or_observations_saved: false
+  preserve_missing_unknown_unresolved_and_undefined: true
+  replacement_inventory_tables_1_11: true
+firewall:
+  source_trajectories_modified: false
+  audit_labels_modified: false
+  manuscript_tex_modified: false
+  pdf_modified: false
+stage_gate:
+  stop_before_tex_pdf_integration: true

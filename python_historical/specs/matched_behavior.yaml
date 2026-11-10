@@ -1,0 +1,95 @@
+schema_version: outcome-matched-behavior-divergence-spec-v1
+status: frozen_before_behavior_access
+population: evaluated_final_v2
+primary_pair_set: close_1pp_nondetection
+primary_pair_count: 65
+sensitivity_pair_set: close_2pp_nondetection
+sensitivity_pair_count: 160
+complete_disclosure_pair_count: 1635
+pair_role:
+  close_1pp: main_descriptive_analysis
+  close_2pp: mandatory_broader_sensitivity
+  exact_point_equal_10_pairs: appendix_only
+  formal_equivalence_sets: empty_not_analyzed_for_behavior
+behavior_anchors:
+  - metric_id: operational_action_count
+    display_unit: actions_per_rollout
+    scale_multiplier: 1
+  - metric_id: exploration_share
+    display_unit: percentage_points
+    scale_multiplier: 100
+  - metric_id: source_write_count
+    display_unit: writes_per_rollout
+    scale_multiplier: 1
+  - metric_id: formal_test_count
+    display_unit: tests_per_rollout
+    scale_multiplier: 1
+  - metric_id: repeated_unsuccessful_command_count
+    display_unit: repeats_per_rollout
+    scale_multiplier: 1
+  - metric_id: unproductive_tail_length
+    display_unit: actions_per_rollout
+    scale_multiplier: 1
+cell_estimator:
+  selected_trajectories_per_task_per_arm: 5
+  minimum_defined_trajectories_per_task_per_arm: 4
+  task_stack_value: mean_over_defined_selected_trajectories
+  censored_but_defined_values_retained: true
+  undefined_values_not_coerced_to_zero: true
+pair_anchor_estimator:
+  signed_direction: stack_b_minus_stack_a
+  pair_value: equal_mean_over_paired_defined_task_differences
+  minimum_paired_defined_tasks: 40
+  task_pool_fixed_to_balanced_50: true
+uncertainty:
+  pair_anchor_method: paired_task_cluster_bootstrap
+  draws: 10000
+  interval: percentile_95
+  quantile_method: linear
+  seed_key: outcome-matched-behavior-bootstrap-v1_x_pair_id_x_metric_id
+primary_behavior_difference_rule:
+  id: nominal_interval_excludes_zero
+  pass_condition: paired_95_interval_entirely_above_or_below_zero
+  multiplicity_adjusted: false
+  interpretation: descriptive_nominal_difference_not_quality_or_causality
+pair_profile_summaries:
+  - supported_anchor_count
+  - anchors_with_nominal_interval_excluding_zero
+  - any_difference_at_least_1
+  - multi_difference_at_least_3
+  - all_six_close_by_nominal_rule
+aggregate_estimand:
+  weighting: equal_pair
+  primary_denominator: behavior_supported_pairs_in_close_1pp_set
+  sensitivity_denominator: behavior_supported_pairs_in_close_2pp_set
+  iid_binomial_confidence_interval: prohibited
+  uncertainty_reporting:
+    - pair_level_task_bootstrap_intervals
+    - leave_one_stack_out_fraction_range
+    - within_company_and_cross_company_strata
+  high_degree_stack_diagnostic_required: true
+required_outputs:
+  - close_pair_behavior_estimates_v1.csv
+  - close_pair_behavior_profiles_v1.csv
+  - behavior_divergence_summary_v1.json
+  - behavior_divergence_per_anchor_v1.csv
+  - behavior_divergence_leave_one_stack_out_v1.csv
+main_claim_boundary:
+  allowed: >-
+    Among prespecified exact-stack pairs with closely matched observed solve
+    rates, multiple native-unit workflow differences are common/observed if
+    supported by the frozen results.
+  prohibited:
+    - equal_or_equivalent_solve_rates
+    - causal_behavior_effect_on_resolution
+    - latent_capability_equality
+    - pure_model_effect
+    - better_or_more_efficient_workflow
+    - multiplicity_controlled_confirmation
+stage_boundary:
+  raw_trajectory_access: false
+  event_table_access: false
+  outcome_reselection: false
+  token_or_resource_access: false
+  composite_behavioral_distance: false
+  figure_generation: false

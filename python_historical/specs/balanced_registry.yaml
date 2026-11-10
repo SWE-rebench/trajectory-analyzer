@@ -1,0 +1,63 @@
+schema_version: balanced-outcome-matched-pair-task-registry-spec-v1
+status: frozen_before_outcome_or_behavior_access
+population: evaluated_final_v2
+legacy_exact_0_allowed: false
+purpose: >-
+  Freeze a balanced metadata-only registry with exactly 50 identical tasks per
+  exact-stack pair and exactly 5 evaluated-final trajectories per task in each
+  stack arm.
+pair_universe:
+  unordered: true
+  different_canonical_model: true
+  identical_scaffold: true
+  identical_normalized_reasoning_effort_including_missingness: true
+  identical_api_mode_proxy: true
+  both_stacks_pass_inherited_evaluated_final_parser_gate: true
+  minimum_common_tasks_with_at_least_5_trajectories_per_arm: 50
+  expected_eligible_pairs_from_metadata_feasibility: 1635
+balanced_selection:
+  tasks_per_pair: 50
+  task_selection_without_replacement: true
+  task_hash_seed: outcome-matched-balanced-tasks-v1
+  task_hash_key: candidate_pair_id_x_task_id
+  trajectories_per_task_per_arm: 5
+  trajectory_selection_without_replacement: true
+  trajectory_hash_seed: outcome-matched-balanced-rollouts-v1
+  trajectory_hash_key: stack_id_x_task_id_x_rollout_id
+  reuse_same_stack_task_rollout_subset_across_pairs: true
+  outcome_used_for_selection: false
+  behavior_used_for_selection: false
+  token_or_resource_used_for_selection: false
+balanced_counts_expected:
+  pair_rows: 1635
+  pair_task_rows: 81750
+  rollout_views: 817500
+  rollout_views_per_pair: 500
+interpretation:
+  same_tasks_within_each_pair: true
+  same_tasks_across_different_pairs_required: false
+  same_trajectory_may_appear_in_multiple_pair_views: true
+  pair_task_rows_independent: false
+  pure_model_effect: false
+  default_or_unreported_effort_is_verified_equality: false
+prohibited_inputs:
+  - outcome
+  - outcome_available
+  - outcome_source_export_id
+  - trajectory_payload
+  - patch
+  - event_table
+  - behavior_metric
+  - token_usage
+outputs:
+  - balanced_pair_registry_v1.csv
+  - balanced_pair_task_registry_v1.csv
+  - balanced_registry_summary_v1.json
+  - BALANCED_OUTCOME_MATCHED_REGISTRY_v1.lock.json
+stage_boundary:
+  outcome_proximity_definition_frozen: false
+  outcome_values_accessed: false
+  behavior_thresholds_frozen: false
+  behavior_values_accessed: false
+  weighting_estimand_frozen: false
+  analysis_execution_authorized: false

@@ -1,0 +1,3 @@
+# Dependencies recorded for the original split-half null run (Python 3.11+).
+numpy==2.4.1
+pyarrow==22.0.0

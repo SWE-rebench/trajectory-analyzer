@@ -1,0 +1,109 @@
+schema_version: repository-holdout-fingerprint-full-v1
+status: frozen_before_behavior_value_access
+date: 2026-08-23
+purpose: >-
+  Scale the positive pilot to every corrected evaluated-final exact stack with
+  sufficient repository-disjoint support and test whether relative,
+  interface-neutral behavioral profiles retrieve exact stack identity.
+
+population:
+  cohort: evaluated_final_v2
+  legacy_exact_0_allowed: false
+  parser_gate: inherited_evaluated_final_cell_gate_must_pass
+  stack_unit: model_plus_scaffold_plus_normalized_effort_plus_api_proxy
+  scaffold_restriction: none
+  outcome_used: false
+
+repository_split:
+  global_across_all_stacks: true
+  ordering: sha256_of_seed_and_repository
+  assignment: alternating_A_B_in_hash_order
+  seed: full-fingerprint-repo-split-v1
+  repository_disjoint: true
+
+support_and_selection:
+  minimum_available_rollouts_per_stack_task: 3
+  selected_rollouts_per_stack_task: 3
+  rollout_seed: full-fingerprint-rollouts-v1
+  metadata_minimum_tasks_per_fold: 20
+  defined_rollouts_required_per_task_stack_feature: 2
+  defined_tasks_required_per_stack_feature_fold: 15
+  require_all_eight_features_both_folds: true
+  definedness_preflight_reads_metric_values: false
+  behavior_or_outcome_used_for_stack_selection: false
+
+features:
+  primary:
+    - search_navigation_share
+    - file_read_share
+    - source_write_share
+    - formal_test_share
+    - action_entropy
+    - action_switch_rate
+    - final_diff_inspected
+    - termination_after_write_without_validation
+  feature_blocks:
+    composition:
+      - search_navigation_share
+      - file_read_share
+      - source_write_share
+      - formal_test_share
+    sequence_and_closure:
+      - action_entropy
+      - action_switch_rate
+      - final_diff_inspected
+      - termination_after_write_without_validation
+  prohibited:
+    - absolute_action_test_or_write_counts
+    - tokens_cost_or_time
+    - command_methods_or_native_tool_identity
+    - outcome
+
+estimation:
+  rollout_aggregation: mean_within_task_stack_over_selected_defined_rollouts
+  cell_weight: one_per_defined_task_stack_cell
+  task_adjustment: unweighted_two_way_additive_task_plus_stack_fixed_effects
+  fixed_effect_solver: alternating_least_squares_with_centered_stack_coordinates
+  convergence_tolerance: 1.0e-12
+  maximum_iterations: 10000
+  stack_profile: eight_task_adjusted_stack_coordinates
+  scale: query_fold_rms_of_task_adjusted_cell_values
+  similarity: cosine
+  retrieval: bidirectional_nearest_profile
+  primary_population: all_supported_exact_stacks
+  sensitivities:
+    - swelike_py_only_candidates_and_queries
+    - composition_feature_block_only
+    - sequence_and_closure_feature_block_only
+  bootstrap:
+    method: repository_cluster_resampling_conditional_on_fitted_task_effects
+    draws: 500
+    interval: percentile_95
+    seed: full-fingerprint-bootstrap-v1
+  permutation:
+    draws: 10000
+    method: candidate_stack_label_permutation_within_direction
+    seed: full-fingerprint-permutation-v1
+
+primary_outputs:
+  - bidirectional_top1_accuracy
+  - bidirectional_top3_accuracy
+  - mean_self_rank
+  - mean_same_stack_similarity
+  - mean_best_nonself_similarity
+  - mean_self_similarity_margin
+  - repository_bootstrap_interval
+  - permutation_pvalue
+
+interpretation:
+  evidence_tier: exploratory_full_catalog_repository_holdout
+  maximum_claim: >-
+    Supported exact coding-agent stacks retain recognizable relative behavioral
+    profiles across the two observed repository-disjoint panels.
+  prohibited_claims:
+    - intrinsic_model_personality
+    - pure_model_effect
+    - causal_attribution
+    - quality_or_efficiency_ranking
+    - representative_future_repository_generalization
+    - independent_confirmatory_holdout
